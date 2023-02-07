@@ -23,6 +23,7 @@
     "@types/react-dom": "^18.0.10",
     "@vitejs/plugin-react": "^3.0.1",
     "conventional-changelog": "^3.1.25",
+    "conventional-changelog-metahub": "^4.0.1",
     "electron": "^22.0.3",
     "electron-builder": "^23.6.0",
     "esbuild": "^0.17.6",
