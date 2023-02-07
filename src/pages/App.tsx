@@ -1,4 +1,3 @@
-import nodeLogo from "../assets/node.svg"
 import { useState } from 'react'
 import '../style/App.scss'
 
@@ -27,7 +26,7 @@ function App() {
         Click on the Electron + Vite logo to learn more
       </p>
       <div className="flex-center">
-        Place static files into the<code>/public</code> folder <img style={{ width: "5em" }} src={nodeLogo} alt="Node logo" />
+        Place static files into the<code>/public</code> folder <img style={{ width: "5em" }} alt="Node logo" />
       </div>
     </div>
   )
