@@ -1,6 +1,6 @@
-import nodeLogo from "./assets/node.svg"
+import nodeLogo from "../assets/node.svg"
 import { useState } from 'react'
-import './App.scss'
+import '../style/App.scss'
 
 console.log('[App.tsx]', `Hello world from Electron ${process.versions.electron}!`)
 
