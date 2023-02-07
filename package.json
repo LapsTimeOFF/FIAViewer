@@ -1,9 +1,9 @@
 {
-  "name": "electron-vite-react",
-  "version": "2.1.0",
+  "name": "fiaviewer",
+  "version": "1.0.0-beta1",
   "main": "dist-electron/main/index.js",
-  "description": "Electron Vite React boilerplate.",
-  "author": "草鞋没号 <308487730@qq.com>",
+  "description": "Watch all of your F1TV streams at the same time!",
+  "author": "LapsTime and JustJoostNL",
   "license": "MIT",
   "private": true,
   "debug": {
@@ -14,8 +14,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && electron-builder",
-    "preview": "vite preview",
-    "e2e": "npx playwright test"
+    "preview": "vite preview"
   },
   "devDependencies": {
     "@playwright/test": "^1.29.2",
