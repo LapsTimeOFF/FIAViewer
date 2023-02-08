@@ -10,10 +10,6 @@ const router = createHashRouter([
     path: "/login",
     element: (<Login/>),
   },
-  {
-    path: "about",
-    element: <div>About</div>,
-  },
 ]);
 
 function App() {
