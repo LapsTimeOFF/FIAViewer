@@ -44,10 +44,10 @@ const indexHtml = join(process.env.DIST, "index.html");
 
 async function createWindow() {
 
-  ipcMain.handle('f1tv:auth:signIn', (event: IpcMainInvokeEvent) => {handleSignIn(event, win)});
-  ipcMain.handle('f1tv:auth:getPayload', (event: IpcMainInvokeEvent) => handleGetPayload);
-  ipcMain.handle('f1tv:auth:checkExpired', (event: IpcMainInvokeEvent) => handleCheckExpired);
-  ipcMain.handle('f1tv:auth:signOut', (event: IpcMainInvokeEvent) => handleSignOut);
+  ipcMain.handle('f1tv:auth:signIn', (event: IpcMainInvokeEvent) => {return handleSignIn(event, win)});
+  ipcMain.handle('f1tv:auth:getPayload', (event: IpcMainInvokeEvent) => {return handleGetPayload(event)});
+  ipcMain.handle('f1tv:auth:checkExpired', (event: IpcMainInvokeEvent) => {return handleCheckExpired()});
+  ipcMain.handle('f1tv:auth:signOut', (event: IpcMainInvokeEvent) => {return handleSignOut(event)});
 
   ipcMain.handle('config:set', handleSetKey)
   ipcMain.handle('config:get', handleGetKey)

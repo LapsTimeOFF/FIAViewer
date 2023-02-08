@@ -29,18 +29,25 @@ export const handleSignIn = async (
 
 export const handleSignOut = (
   event: IpcMainInvokeEvent | null
-): F1TV_TokenPayload | undefined => {
-  return handleDeleteKey(null, "f1tv");
+) => {
+  handleDeleteKey(null, "f1tv");
 };
 
 export const handleGetPayload = (
-  event: IpcMainInvokeEvent | null
+  event?: IpcMainInvokeEvent | null
 ): F1TV_TokenPayload | undefined => {
-  return handleGetKey(null, "f1tv.payload");
+  let payload: F1TV_TokenPayload = handleGetKey(null, "f1tv.payload");
+  return payload;
 };
 
 export const handleCheckExpired = () => {
-  let {exp}: F1TV_TokenPayload = handleGetPayload(null);
+  let payload: F1TV_TokenPayload = handleGetPayload();
 
-  return Math.round(Date.now() / 1000) > exp ?? null;
+  if(payload === undefined) {
+    return false;
+  }
+
+  console.log(`[${__filename.split('/')[__filename.split('/').length-1]}]`, payload.exp, Math.round(Date.now() / 1000) > payload.exp);
+
+  return Math.round(Date.now() / 1000) > payload.exp;
 };
