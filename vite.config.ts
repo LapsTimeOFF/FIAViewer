@@ -11,7 +11,7 @@ import pkg from './package.json'
 export default defineConfig(({ command }) => {
   rmSync('dist-electron', { recursive: true, force: true })
 
-  const sourcemap = command === 'serve' || !!process.env.VSCODE_DEBUG
+  const sourcemap = true;
 
   return {
     resolve: {

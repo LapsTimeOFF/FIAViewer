@@ -40,14 +40,14 @@ export const handleGetPayload = (
   return payload;
 };
 
-export const handleCheckExpired = () => {
+export const handleCheckExpired = (): boolean => {
   let payload: F1TV_TokenPayload = handleGetPayload();
 
   if(payload === undefined) {
-    return false;
+    return true;
   }
 
-  console.log(`[${__filename.split('/')[__filename.split('/').length-1]}]`, payload.exp, Math.round(Date.now() / 1000) > payload.exp);
+  console.log(`[${__filename.split('/')[__filename.split('/').length-1]}]`, 'Token exp:', payload.exp, 'Date now:', Math.round(Date.now() / 1000), 'Token expired:', Math.round(Date.now() / 1000) > payload.exp);
 
   return Math.round(Date.now() / 1000) > payload.exp;
 };
