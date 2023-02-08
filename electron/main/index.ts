@@ -1,7 +1,8 @@
 import { app, BrowserWindow, shell, ipcMain, IpcMainInvokeEvent } from "electron";
 import { release } from "node:os";
 import { join } from "node:path";
-import { handleSignIn } from "./authF1TV";
+import { handleCheckExpired, handleGetPayload, handleSignIn, handleSignOut } from "./authF1TV";
+import { handleDeleteKey, handleGetKey, handleSetKey } from "./config";
 
 // The built directory structure
 //
@@ -44,6 +45,13 @@ const indexHtml = join(process.env.DIST, "index.html");
 async function createWindow() {
 
   ipcMain.handle('f1tv:auth:signIn', (event: IpcMainInvokeEvent) => {handleSignIn(event, win)});
+  ipcMain.handle('f1tv:auth:getPayload', (event: IpcMainInvokeEvent) => handleGetPayload);
+  ipcMain.handle('f1tv:auth:checkExpired', (event: IpcMainInvokeEvent) => handleCheckExpired);
+  ipcMain.handle('f1tv:auth:signOut', (event: IpcMainInvokeEvent) => handleSignOut);
+
+  ipcMain.handle('config:set', handleSetKey)
+  ipcMain.handle('config:get', handleGetKey)
+  ipcMain.handle('config:delete', handleDeleteKey)
 
   win = new BrowserWindow({
     title: "FIAViewer",

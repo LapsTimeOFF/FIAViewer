@@ -97,11 +97,22 @@ setTimeout(removeLoading, 4999);
 
 // ----------------------------------------------------------------------
 
-export const f1tvApi = {
+export const f1tv = {
   auth: {
     signIn: () => ipcRenderer.invoke("f1tv:auth:signIn"),
+    getPayload: () => ipcRenderer.invoke('f1tv:auth:getPayload'),
+    checkExpired: () => ipcRenderer.invoke('f1tv:auth:checkExpired'),
+    signOut: () => ipcRenderer.invoke('f1tv:auth:signOut'),
   },
 };
 
+export const config = {
+  set: (key: string, value) => ipcRenderer.invoke("config:set", key, value),
+  get: (key: string) => ipcRenderer.invoke("config:get", key),
+  delete: (key: string) => ipcRenderer.invoke("config:delete", key)
+}
+
 // @ts-ignore
-window.f1tvApi = f1tvApi;
+window.f1tv = f1tv;
+// @ts-ignore
+window.config = config;
