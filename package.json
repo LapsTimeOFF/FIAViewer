@@ -48,5 +48,10 @@
     "electron-store": "^8.1.0",
     "jwt-decode": "^3.1.2",
     "react-router-dom": "^6.8.1"
+  },
+  "standard-version": {
+    "skip": {
+      "tag": true
+    }
   }
 }
