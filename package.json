@@ -1,6 +1,6 @@
 {
   "name": "fiaviewer",
-  "version": "1.0.0-beta1",
+  "version": "1.0.0",
   "main": "dist-electron/main/index.js",
   "description": "Watch all of your F1TV streams at the same time!",
   "author": "LapsTime and JustJoostNL",
