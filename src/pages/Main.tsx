@@ -6,8 +6,8 @@ const Main = () => {
   useEffect(() => {
     const checkExpired = async () => {
       if (
-        (await window.f1tv.auth.getPayload()) === undefined ||
-        (await window.f1tv.auth.checkExpired())
+        (await window.fiaviewer.f1tv.auth.getPayload()) === undefined ||
+        (await window.fiaviewer.f1tv.auth.checkExpired())
       )
         location.hash = "/login";
     };

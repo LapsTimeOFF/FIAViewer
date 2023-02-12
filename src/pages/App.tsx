@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 import Login from "./Login";
 import Main from "./Main";
+import Player from "./Player";
 
 const router = createHashRouter([
   {
@@ -15,6 +16,10 @@ const router = createHashRouter([
     path: "/",
     element: (<Main/>),
   },
+  {
+    path: '/player',
+    element: (<Player/>)
+  }
 ]);
 
 function App() {

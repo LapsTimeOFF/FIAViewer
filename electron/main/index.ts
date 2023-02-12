@@ -1,8 +1,29 @@
-import { app, BrowserWindow, shell, ipcMain, IpcMainInvokeEvent } from "electron";
+import {
+  app,
+  BrowserWindow,
+  shell,
+  ipcMain,
+  IpcMainInvokeEvent,
+  protocol,
+  session,
+  OnBeforeSendHeadersListenerDetails,
+} from "electron";
 import { release } from "node:os";
 import { join } from "node:path";
-import { handleCheckExpired, handleGetPayload, handleSignIn, handleSignOut } from "./authF1TV";
+import {
+  handleCheckExpired,
+  handleGetPayload,
+  handleSignIn,
+  handleSignInWithToken,
+  handleSignOut,
+} from "./f1tv/auth";
 import { handleDeleteKey, handleGetKey, handleSetKey } from "./config";
+import { handleCheckForUpdate } from "./update";
+import { requestPlaybackPath } from "./f1tv/player";
+import installExtension, {
+  REACT_DEVELOPER_TOOLS,
+} from "electron-devtools-installer";
+import { userAgent } from "./utils";
 
 // The built directory structure
 //
@@ -36,23 +57,30 @@ if (!app.requestSingleInstanceLock()) {
 // Read more on https://www.electronjs.org/docs/latest/tutorial/security
 process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "true";
 
-let win: BrowserWindow | null = null;
+export let win: BrowserWindow | null = null;
 // Here, you can also use other preload
 const preload = join(__dirname, "../preload/preload.js");
 const url = process.env.VITE_DEV_SERVER_URL;
 const indexHtml = join(process.env.DIST, "index.html");
 
+const privileges = {
+  standard: true,
+  bypassCSP: true,
+  allowServiceWorkers: true,
+  supportFetchAPI: true,
+  corsEnabled: false,
+  stream: true,
+};
+
+protocol.registerSchemesAsPrivileged([
+  { scheme: "file", privileges },
+  { scheme: "http", privileges },
+  { scheme: "https", privileges },
+  { scheme: "wss", privileges },
+  { scheme: "mailto", privileges: { standard: true } },
+]);
+
 async function createWindow() {
-
-  ipcMain.handle('f1tv:auth:signIn', (event: IpcMainInvokeEvent) => {return handleSignIn(event, win)});
-  ipcMain.handle('f1tv:auth:getPayload', (event: IpcMainInvokeEvent) => {return handleGetPayload(event)});
-  ipcMain.handle('f1tv:auth:checkExpired', (event: IpcMainInvokeEvent) => {return handleCheckExpired()});
-  ipcMain.handle('f1tv:auth:signOut', (event: IpcMainInvokeEvent) => {return handleSignOut(event)});
-
-  ipcMain.handle('config:set', handleSetKey)
-  ipcMain.handle('config:get', handleGetKey)
-  ipcMain.handle('config:delete', handleDeleteKey)
-
   win = new BrowserWindow({
     title: "FIAViewer",
     icon: join(process.env.PUBLIC, "favicon.ico"),
@@ -63,6 +91,7 @@ async function createWindow() {
       // Read more on https://www.electronjs.org/docs/latest/tutorial/context-isolation
       nodeIntegration: true,
       contextIsolation: false,
+      webSecurity: false,
     },
   });
 
@@ -87,7 +116,82 @@ async function createWindow() {
   });
 }
 
-app.whenReady().then(createWindow);
+app.whenReady().then(async () => {
+  session.defaultSession.webRequest.onBeforeSendHeaders(
+    {
+      urls: ["https://*.formula1.com/*"],
+    },
+    (details: OnBeforeSendHeadersListenerDetails, callback: any) => {
+      console.log("F1 Call - Editing headers...");
+      const { referer, Referer, ...headers } = details.requestHeaders;
+
+      const secFetchSite = details.url.startsWith("https://f1tv.formula1.com")
+        ? "same-origin"
+        : "same-site";
+
+      callback({
+        requestHeaders: {
+          ...headers,
+          "accept-language": "fr",
+          referer: "https://www.formula1.com/",
+          Origin: "https://f1tv.formula1.com",
+          "Sec-Fetch-Site": secFetchSite,
+          // Cookie: [authCookie, Cookie, cookie]
+          //     .filter(Boolean)
+          //     .join('; '),
+          Cookie: encodeURI(
+            `login-session=${JSON.stringify({
+              data: {
+                subscriptionToken: handleGetKey(null, "f1tv.token"),
+              },
+            })}`
+          ),
+          "user-agent": userAgent,
+          "sec-ch-ua": '"Not;A=Brand";v="99", "Chromium";v="106"',
+        },
+      });
+    }
+  );
+
+  ipcMain.handle(
+    "updater:checkForUpdate",
+    async (event: IpcMainInvokeEvent) => {
+      return await handleCheckForUpdate(event);
+    }
+  );
+
+  ipcMain.handle(
+    "f1tv:player:getStreamURL",
+    async (
+      event: IpcMainInvokeEvent,
+      contentId: string | number,
+      channelId?: string | number
+    ) => {
+      return await requestPlaybackPath(contentId, channelId);
+    }
+  );
+
+  ipcMain.handle("f1tv:auth:signIn", (event: IpcMainInvokeEvent) => {
+    return handleSignIn(event, win);
+  });
+  ipcMain.handle("f1tv:auth:signInWithToken", async (event: IpcMainInvokeEvent, token: string) => {
+    return await handleSignInWithToken(event, win, token);
+  });
+  ipcMain.handle("f1tv:auth:getPayload", (event: IpcMainInvokeEvent) => {
+    return handleGetPayload(event);
+  });
+  ipcMain.handle("f1tv:auth:checkExpired", (event: IpcMainInvokeEvent) => {
+    return handleCheckExpired();
+  });
+  ipcMain.handle("f1tv:auth:signOut", (event: IpcMainInvokeEvent) => {
+    return handleSignOut(event);
+  });
+
+  ipcMain.handle("config:set", handleSetKey);
+  ipcMain.handle("config:get", handleGetKey);
+  ipcMain.handle("config:delete", handleDeleteKey);
+  createWindow();
+});
 
 app.on("window-all-closed", () => {
   win = null;
