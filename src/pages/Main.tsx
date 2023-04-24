@@ -9,7 +9,7 @@ const Main = () => {
         (await window.fiaviewer.f1tv.auth.getPayload()) === undefined ||
         (await window.fiaviewer.f1tv.auth.checkExpired())
       )
-        location.hash = "/login";
+        location.hash = "/login"; else location.hash = "/home";
     };
 
     setTimeout(() => {

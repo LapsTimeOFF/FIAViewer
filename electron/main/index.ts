@@ -5,8 +5,9 @@ import {
   ipcMain,
   IpcMainInvokeEvent,
   protocol,
+  components,
   session,
-  OnBeforeSendHeadersListenerDetails,
+  OnBeforeSendHeadersListenerDetails
 } from "electron";
 import { release } from "node:os";
 import { join } from "node:path";
@@ -20,9 +21,6 @@ import {
 import { handleDeleteKey, handleGetKey, handleSetKey } from "./config";
 import { handleCheckForUpdate } from "./update";
 import { requestPlaybackPath } from "./f1tv/player";
-import installExtension, {
-  REACT_DEVELOPER_TOOLS,
-} from "electron-devtools-installer";
 import { userAgent } from "./utils";
 
 // The built directory structure
@@ -117,6 +115,8 @@ async function createWindow() {
 }
 
 app.whenReady().then(async () => {
+  await components.whenReady();
+  console.log('components ready:', components.status());
   session.defaultSession.webRequest.onBeforeSendHeaders(
     {
       urls: ["https://*.formula1.com/*"],
@@ -132,7 +132,6 @@ app.whenReady().then(async () => {
       callback({
         requestHeaders: {
           ...headers,
-          "accept-language": "fr",
           referer: "https://www.formula1.com/",
           Origin: "https://f1tv.formula1.com",
           "Sec-Fetch-Site": secFetchSite,

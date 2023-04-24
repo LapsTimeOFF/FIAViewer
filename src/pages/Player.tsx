@@ -56,7 +56,7 @@ const Player = () => {
     // Listen for error events.
     player.addEventListener("error", onErrorEvent);
 
-    const url = await window.fiaviewer.f1tv.player.getStreamURL(1000005273);
+    const url = await window.fiaviewer.f1tv.player.getStreamURL(1000006446);
     console.log(url);
 
     if (await window.fiaviewer.f1tv.auth.checkExpired())
@@ -105,13 +105,8 @@ const Player = () => {
         doubleClickForFullscreen: false,
         enableKeyboardPlaybackControls: false,
       } as shaka.extern.UIConfiguration);
-      ui.getControls()
-        ?.getLocalization()
-        ?.insert("en", new Map([["teamradio", "Team Radio"]]));
-      ui.getControls()
-        ?.getLocalization()
-        ?.insert("en", new Map([["fx", "FX"]]));
-      await player.load(manifestUri);
+
+      player.load(manifestUri);
       // This runs if the asynchronous load is successful.
       console.log("The video has now been loaded!");
     } catch (e) {

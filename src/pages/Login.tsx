@@ -30,9 +30,9 @@ const Login = () => {
           onClick={() => {
             window.fiaviewer.f1tv.auth.signIn();
           }}
+          endIcon={<ArrowRightAltIcon />}
         >
-          <Typography>Sign in using F1TV Account </Typography>
-          <ArrowRightAltIcon />
+          <Typography>Sign in using F1TV Account</Typography>
         </Button>
       </Box>
     </Container>

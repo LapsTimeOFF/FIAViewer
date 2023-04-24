@@ -23,12 +23,22 @@ export const handleSignIn = async (
   child.once("ready-to-show", async () => {
     child.show();
     child.webContents.on("did-navigate", async () => {
-      const token = await child.webContents.session.cookies.get({
-        name: "entitlement_token",
-      });
-      const payload = jwt_decode(token[0].value);
+      console.log('a');
+      const data = (await child.webContents.session.cookies.get({
+        name: "login-session",
+      }))[0].value;
 
-      handleSetKey(event, "f1tv.token", token[0].value);
+      console.log(data);
+      
+      const token = JSON.parse(decodeURIComponent(data)).data.subscriptionToken
+
+      console.log(token);
+
+      const payload = jwt_decode(token);
+
+      console.log(payload);
+
+      handleSetKey(event, "f1tv.token", token);
       handleSetKey(event, "f1tv.payload", payload);
 
       win.webContents.send("f1tv:auth:logged");

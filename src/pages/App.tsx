@@ -6,6 +6,8 @@ import {
 import Login from "./Login";
 import Main from "./Main";
 import Player from "./Player";
+import Home from "./Home";
+import Page from "./Page";
 
 const router = createHashRouter([
   {
@@ -19,6 +21,14 @@ const router = createHashRouter([
   {
     path: '/player',
     element: (<Player/>)
+  },
+  {
+    path: '/home',
+    element: (<Home/>)
+  },
+  {
+    path: '/page/:id/:pagename',
+    element: (<Page/>)
   }
 ]);
 

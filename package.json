@@ -14,7 +14,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && electron-builder",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "sign:widevine": "python3 -m castlabs_evs.vmp sign-pkg node_modules/electron/dist"
   },
   "devDependencies": {
     "@playwright/test": "^1.30.0",
@@ -23,7 +24,7 @@
     "@vitejs/plugin-react": "^3.1.0",
     "conventional-changelog": "^3.1.25",
     "conventional-changelog-metahub": "^4.0.1",
-    "electron": "^22.2.1",
+    "electron": "github:castlabs/electron-releases#v24.0.0+wvcus",
     "electron-builder": "^23.6.0",
     "esbuild": "^0.17.7",
     "node-fetch": "^3.3.0",
@@ -51,7 +52,8 @@
     "jwt-decode": "^3.1.2",
     "mux.js": "^6.2.0",
     "react-router-dom": "^6.8.1",
-    "shaka-player": "^4.3.4"
+    "shaka-player": "^4.3.4",
+    "swr": "^2.1.4"
   },
   "standard-version": {
     "skip": {

@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@emotion/react";
-import { createTheme } from "@mui/material";
+import { CssBaseline, createTheme } from "@mui/material";
 import { red } from "@mui/material/colors";
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -11,14 +11,15 @@ const theme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: red['A700']
-    }
+      main: red["A700"],
+    },
   },
 });
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <App />
     </ThemeProvider>
   </React.StrictMode>
