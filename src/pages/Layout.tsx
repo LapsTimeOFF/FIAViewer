@@ -1,5 +1,5 @@
 import { Button, Divider, Stack, Typography } from "@mui/material";import { Link } from "react-router-dom";
-;
+
 import useSWR from "swr";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -30,7 +30,7 @@ const Layout = ({ children }: { children: JSX.Element }) => {
           {tabs &&
             tabs.resultObj.containers.map((container: any) =>
               container.actions[0].href !== "/search" ? (
-                <Button component={Link} to={container.actions[0].href === '/' ? '/home' : container.actions[0].href} key={container.metadata.label}>
+                <Button component={Link} to={container.actions[0].href === "/" ? "/home" : container.actions[0].href} key={container.metadata.label}>
                   {container.metadata.label}
                 </Button>
               ) : (

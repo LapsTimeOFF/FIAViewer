@@ -23,14 +23,14 @@ export const handleSignIn = async (
   child.once("ready-to-show", async () => {
     child.show();
     child.webContents.on("did-navigate", async () => {
-      console.log('a');
+      console.log("a");
       const data = (await child.webContents.session.cookies.get({
         name: "login-session",
       }))[0].value;
 
       console.log(data);
       
-      const token = JSON.parse(decodeURIComponent(data)).data.subscriptionToken
+      const token = JSON.parse(decodeURIComponent(data)).data.subscriptionToken;
 
       console.log(token);
 
@@ -68,12 +68,12 @@ export const handleSignOut = (event: IpcMainInvokeEvent | null) => {
 export const handleGetPayload = (
   event?: IpcMainInvokeEvent | null
 ): F1TV_TokenPayload | undefined => {
-  let payload: F1TV_TokenPayload = handleGetKey(null, "f1tv.payload");
+  const payload: F1TV_TokenPayload = handleGetKey(null, "f1tv.payload");
   return payload;
 };
 
 export const handleCheckExpired = (): boolean => {
-  let payload: F1TV_TokenPayload = handleGetPayload();
+  const payload: F1TV_TokenPayload = handleGetPayload();
 
   if (payload === undefined) {
     return true;

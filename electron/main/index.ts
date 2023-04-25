@@ -116,7 +116,7 @@ async function createWindow() {
 
 app.whenReady().then(async () => {
   await components.whenReady();
-  console.log('components ready:', components.status());
+  console.log("components ready:", components.status());
   session.defaultSession.webRequest.onBeforeSendHeaders(
     {
       urls: ["https://*.formula1.com/*"],
@@ -146,7 +146,7 @@ app.whenReady().then(async () => {
             })}`
           ),
           "user-agent": userAgent,
-          "sec-ch-ua": '"Not;A=Brand";v="99", "Chromium";v="106"',
+          "sec-ch-ua": "\"Not;A=Brand\";v=\"99\", \"Chromium\";v=\"106\"",
         },
       });
     }

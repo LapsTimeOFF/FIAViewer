@@ -13,7 +13,7 @@ const theme = createTheme({
     primary: {
       main: red["A700"],
     },
-  },
+  }
 });
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(

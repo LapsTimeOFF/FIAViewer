@@ -3,11 +3,11 @@ import { F1TV_API_PlaybackResponse } from "../../types/PlayerF1TV";
 import { handleGetKey } from "../config";
 import { handleCheckExpired, handleGetPayload } from "./auth";
 import { baseURL } from "./variables";
-const HttpsProxyAgent = require('https-proxy-agent');
+const HttpsProxyAgent = require("https-proxy-agent");
 
 // @ts-ignore
 const fetch = (...args: any[]) =>
-  // @ts-ignore
+// @ts-ignore
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 export const requestPlaybackPath = async (

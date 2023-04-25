@@ -19,15 +19,15 @@ const router = createHashRouter([
     element: (<Main/>),
   },
   {
-    path: '/player',
+    path: "/player",
     element: (<Player/>)
   },
   {
-    path: '/home',
+    path: "/home",
     element: (<Home/>)
   },
   {
-    path: '/page/:id/:pagename',
+    path: "/page/:id/:pagename",
     element: (<Page/>)
   }
 ]);

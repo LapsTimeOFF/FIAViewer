@@ -9,8 +9,8 @@ export interface F1TV_API_PlaybackResponse {
 export interface ContentStream {
     entitlementToken: string;
     url: string;
-    streamType: 'DASHWV' | 'HLSFP' | 'DASH';
-    drmType: 'widevine' | 'fairplay';
+    streamType: "DASHWV" | "HLSFP" | "DASH";
+    drmType: "widevine" | "fairplay";
     drmToken?: string;
     laURL: string;
     certUrl?: string;

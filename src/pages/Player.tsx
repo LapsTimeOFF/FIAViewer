@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect } from "react";
 // @ts-ignore
 import shaka from "shaka-player/dist/shaka-player.ui.debug";
@@ -127,8 +128,6 @@ const Player = () => {
 
   useEffect(() => {
     initApp();
-
-    return () => {};
   }, []);
 
   return (

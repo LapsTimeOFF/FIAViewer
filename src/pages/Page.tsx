@@ -7,8 +7,8 @@ import HorizontalThumbnail from "@/components/HorizontalThumbnail";
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 function formatString(input: string) {
-  let words = input.split(" ");
-  let formattedWords = words.map((word) => {
+  const words = input.split(" ");
+  const formattedWords = words.map((word) => {
     return word.slice(0, 1).toUpperCase() + word.slice(1).toLowerCase();
   });
   return formattedWords.join(" ");
@@ -32,20 +32,20 @@ const Page = () => {
           data.resultObj.containers.map((container: any) => {
             console.log(container.layout);
             switch (container.layout) {
-              case "hero":
-              case "title":
-                return (
-                  <Typography variant="h2">
-                    {formatString(container.title)}
-                  </Typography>
-                );
+            case "hero":
+            case "title":
+              return (
+                <Typography variant="h2">
+                  {formatString(container.title)}
+                </Typography>
+              );
 
-              case "subtitle":
-                return (
-                  <Typography variant="h6" color={"text.secondary"}>
-                    {formatString(container.title)}
-                  </Typography>
-                );
+            case "subtitle":
+              return (
+                <Typography variant="h6" color={"text.secondary"}>
+                  {formatString(container.title)}
+                </Typography>
+              );
 
               // default:
               //   return container.layout;
@@ -60,8 +60,8 @@ const Page = () => {
               )
               .map((container: any) => {
                 return container.retrieveItems.resultObj.containers.map((container: any) => {
-                  return <HorizontalThumbnail data={container} page={pagename ?? ''} />;
-                })
+                  return <HorizontalThumbnail data={container} page={pagename ?? ""} />;
+                });
               })}
         </Grid>
       </>
