@@ -19,7 +19,7 @@ const router = createHashRouter([
     element: (<Main/>),
   },
   {
-    path: "/player",
+    path: "/player/:contentId/:channelId",
     element: (<Player/>)
   },
   {

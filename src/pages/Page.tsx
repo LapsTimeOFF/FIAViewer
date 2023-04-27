@@ -3,6 +3,7 @@ import Layout from "./Layout";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
 import HorizontalThumbnail from "@/components/HorizontalThumbnail";
+import GpBanner from "@/components/GpBanner";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -36,22 +37,27 @@ const Page = () => {
             case "title":
               return (
                 <Typography variant="h2">
-                  {formatString(container.title)}
+                  {formatString(container.title ?? '')}
                 </Typography>
               );
 
             case "subtitle":
               return (
                 <Typography variant="h6" color={"text.secondary"}>
-                  {formatString(container.title)}
+                  {formatString(container.title ?? '')}
                 </Typography>
+              );
+
+            case "gp_banner":
+              return (
+                <GpBanner data={container} />
               );
 
               // default:
               //   return container.layout;
             }
           })}
-
+          
         <Grid container spacing={2}>
           {data &&
             data.resultObj.containers

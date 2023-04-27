@@ -7,7 +7,7 @@ import {
   protocol,
   components,
   session,
-  OnBeforeSendHeadersListenerDetails
+  OnBeforeSendHeadersListenerDetails,
 } from "electron";
 import { release } from "node:os";
 import { join } from "node:path";
@@ -146,7 +146,7 @@ app.whenReady().then(async () => {
             })}`
           ),
           "user-agent": userAgent,
-          "sec-ch-ua": "\"Not;A=Brand\";v=\"99\", \"Chromium\";v=\"106\"",
+          "sec-ch-ua": '"Not;A=Brand";v="99", "Chromium";v="106"',
         },
       });
     }
@@ -169,13 +169,45 @@ app.whenReady().then(async () => {
       return await requestPlaybackPath(contentId, channelId);
     }
   );
+  ipcMain.handle(
+    "f1tv:player:open",
+    async (event: IpcMainInvokeEvent, urlPlayer: string) => {
+      const player = new BrowserWindow({
+        title: "FIAViewer",
+        icon: join(process.env.PUBLIC, "favicon.ico"),
+        webPreferences: {
+          preload,
+          nodeIntegration: true,
+          contextIsolation: false,
+          webSecurity: false,
+        },
+        // frame: false,
+        height: 1080,
+        width: 1920,
+      });
+
+      player.setAspectRatio(16 / 9);
+
+      if (process.env.VITE_DEV_SERVER_URL) {
+        // electron-vite-vue#298
+        player.loadURL(url + `#${urlPlayer}`);
+        // Open devTool if the app is not packaged
+        player.webContents.openDevTools();
+      } else {
+        player.loadFile(indexHtml + `#${urlPlayer}`);
+      }
+    }
+  );
 
   ipcMain.handle("f1tv:auth:signIn", (event: IpcMainInvokeEvent) => {
     return handleSignIn(event, win);
   });
-  ipcMain.handle("f1tv:auth:signInWithToken", async (event: IpcMainInvokeEvent, token: string) => {
-    return await handleSignInWithToken(event, win, token);
-  });
+  ipcMain.handle(
+    "f1tv:auth:signInWithToken",
+    async (event: IpcMainInvokeEvent, token: string) => {
+      return await handleSignInWithToken(event, win, token);
+    }
+  );
   ipcMain.handle("f1tv:auth:getPayload", (event: IpcMainInvokeEvent) => {
     return handleGetPayload(event);
   });

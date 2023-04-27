@@ -6,6 +6,7 @@ import shaka from "shaka-player/dist/shaka-player.ui.debug";
 import muxjs from "mux.js";
 import "shaka-player/dist/controls.css";
 import "../style/Player.scss";
+import { useParams } from "react-router-dom";
 
 export interface F1TV_API_PlaybackResponse {
   resultCode: string;
@@ -27,6 +28,7 @@ export interface ContentStream {
 }
 
 const Player = () => {
+  const {contentId, channelId} = useParams();
   let manifestUri = "";
 
   function initApp() {
@@ -57,7 +59,7 @@ const Player = () => {
     // Listen for error events.
     player.addEventListener("error", onErrorEvent);
 
-    const url = await window.fiaviewer.f1tv.player.getStreamURL(1000006446);
+    const url = await window.fiaviewer.f1tv.player.getStreamURL(contentId ?? '', channelId !== "null" ? channelId : undefined);
     console.log(url);
 
     if (await window.fiaviewer.f1tv.auth.checkExpired())

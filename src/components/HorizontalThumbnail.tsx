@@ -10,10 +10,18 @@ import {
 const HorizontalThumbnail = ({ data, page }: { data: any; page: string }) => {
   // console.log(data.metadata.longDescription, data.metadata.title, data.metadata.emfAttributes?.Meeting_Country_Name)
 
+  const playAction = /^\/detail\/(\d+)\/(.+)$/gm.test(data.actions[0].href);
+
   return (
     <Grid item>
       <Card sx={{ width: 345, minHeight: 100 }} elevation={1}>
-        <CardActionArea>
+        <CardActionArea onClick={() => {
+          if(playAction === false) {
+            location.hash = data.actions[0].href
+          } else {
+            window.fiaviewer.f1tv.player.open(`/player/${data.actions[0].href.split('/').slice(1)[1]}/null`)
+          }
+        }}>
           <CardMedia
             sx={{ height: 140 }}
             image={`https://f1tv.formula1.com/image-resizer/image/${data.metadata.pictureUrl}?w=262&h=147&q=HI&o=L`}
@@ -30,7 +38,7 @@ const HorizontalThumbnail = ({ data, page }: { data: any; page: string }) => {
                     return data.metadata.title;
 
                   default:
-                    return "";
+                    return data.metadata.title;
                   }
                 })()}
               </b>
@@ -46,7 +54,7 @@ const HorizontalThumbnail = ({ data, page }: { data: any; page: string }) => {
                   return data.metadata.shortDescription;
 
                 default:
-                  return "";
+                  return data.metadata.shortDescription;
                 }
               })()}
             </Typography>

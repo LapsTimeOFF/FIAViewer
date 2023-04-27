@@ -12,7 +12,7 @@ export const handleSignIn = async (
     parent: win,
     modal: true,
     show: false,
-    webPreferences: { webSecurity: false },
+    webPreferences: { partition: "persist:f1tv" },
   });
   child.loadURL(
     "https://account.formula1.com/#/en/login?redirect=https%3A%2F%2Ff1tv.formula1.com%2F",
@@ -23,13 +23,14 @@ export const handleSignIn = async (
   child.once("ready-to-show", async () => {
     child.show();
     child.webContents.on("did-navigate", async () => {
-      console.log("a");
-      const data = (await child.webContents.session.cookies.get({
-        name: "login-session",
-      }))[0].value;
+      const data = (
+        await child.webContents.session.cookies.get({
+          name: "login-session",
+        })
+      )[0].value;
 
       console.log(data);
-      
+
       const token = JSON.parse(decodeURIComponent(data)).data.subscriptionToken;
 
       console.log(token);
