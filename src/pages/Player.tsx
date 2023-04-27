@@ -65,6 +65,8 @@ const Player = () => {
     if (await window.fiaviewer.f1tv.auth.checkExpired())
       throw new Error("Token expired.");
 
+    console.log(url)
+
     const response = await fetch(url, {
       method: "GET",
       headers: {

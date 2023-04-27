@@ -10,7 +10,7 @@ const Layout = ({ children }: { children: JSX.Element }) => {
     error,
     isLoading,
   } = useSWR(
-    "https://f1tv.formula1.com/2.0/R/FRA/WEB_DASH/ALL/MENU/F1_TV_Pro_Annual/1",
+    "https://f1tv.formula1.com/2.0/R/ENG/WEB_DASH/ALL/MENU/F1_TV_Pro_Annual/1",
     fetcher
   );
 

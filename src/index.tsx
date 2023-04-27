@@ -4,7 +4,6 @@ import { red } from "@mui/material/colors";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./pages/App";
-import "./samples/node-api";
 import "./style/index.scss";
 
 const theme = createTheme({

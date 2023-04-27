@@ -93,6 +93,9 @@ async function createWindow() {
     },
   });
 
+  // // Load shaka demo
+  // win.loadURL('https://shaka-player-demo.appspot.com/demo/')
+
   if (process.env.VITE_DEV_SERVER_URL) {
     // electron-vite-vue#298
     win.loadURL(url);

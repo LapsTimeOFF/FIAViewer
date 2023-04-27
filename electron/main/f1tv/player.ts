@@ -16,7 +16,7 @@ export const requestPlaybackPath = async (
 ) => {
   const payload = handleGetPayload();
   const url = new URL(
-    `${baseURL}/2.0/R/ENG/WEB_HLS/ALL/CONTENT/PLAY`
+    `${baseURL}/2.0/R/ENG/WEB_DASH/ALL/CONTENT/PLAY`
   );
   const searchParams = new URLSearchParams();
   searchParams.set("contentId", contentId.toString(10));

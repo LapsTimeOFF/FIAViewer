@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import useSWR from "swr";
 import HorizontalThumbnail from "@/components/HorizontalThumbnail";
 import GpBanner from "@/components/GpBanner";
+import VerticalThumbnail from "@/components/VerticalThumbnail";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -33,31 +34,49 @@ const Page = () => {
           data.resultObj.containers.map((container: any) => {
             console.log(container.layout);
             switch (container.layout) {
-            case "hero":
-            case "title":
-              return (
-                <Typography variant="h2">
-                  {formatString(container.title ?? '')}
-                </Typography>
-              );
+              case "hero":
+              case "title":
+                return (
+                  <Typography variant="h1">
+                    <b>{formatString(container.title ?? "")}</b>
+                  </Typography>
+                );
 
-            case "subtitle":
-              return (
-                <Typography variant="h6" color={"text.secondary"}>
-                  {formatString(container.title ?? '')}
-                </Typography>
-              );
+              case "subtitle":
+                return (
+                  <Typography variant="h6" color={"text.secondary"}>
+                    {formatString(container.title ?? "")}
+                  </Typography>
+                );
 
-            case "gp_banner":
-              return (
-                <GpBanner data={container} />
-              );
+              case "gp_banner":
+                return <GpBanner data={container} />;
 
               // default:
               //   return container.layout;
             }
           })}
-          
+
+        <Grid container spacing={2} sx={{ mb: 2 }}>
+          {data &&
+            data.resultObj.containers
+              .filter(
+                (container: any) =>
+                  container.layout === "vertical_simple_poster"
+              )
+              .map((container: any) => {
+                return container.retrieveItems.resultObj.containers.map(
+                  (container: any) => {
+                    return (
+                      <VerticalThumbnail
+                        data={container}
+                        page={pagename ?? ""}
+                      />
+                    );
+                  }
+                );
+              })}
+        </Grid>
         <Grid container spacing={2}>
           {data &&
             data.resultObj.containers
@@ -65,9 +84,16 @@ const Page = () => {
                 (container: any) => container.layout === "horizontal_thumbnail"
               )
               .map((container: any) => {
-                return container.retrieveItems.resultObj.containers.map((container: any) => {
-                  return <HorizontalThumbnail data={container} page={pagename ?? ""} />;
-                });
+                return container.retrieveItems.resultObj.containers.map(
+                  (container: any) => {
+                    return (
+                      <HorizontalThumbnail
+                        data={container}
+                        page={pagename ?? ""}
+                      />
+                    );
+                  }
+                );
               })}
         </Grid>
       </>

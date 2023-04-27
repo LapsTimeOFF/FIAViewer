@@ -8,6 +8,7 @@ import Main from "./Main";
 import Player from "./Player";
 import Home from "./Home";
 import Page from "./Page";
+import Details from "./Details";
 
 const router = createHashRouter([
   {
@@ -29,6 +30,10 @@ const router = createHashRouter([
   {
     path: "/page/:id/:pagename",
     element: (<Page/>)
+  },
+  {
+    path: "/detail/:contentId/:videoSlug",
+    element: (<Details/>)
   }
 ]);
 

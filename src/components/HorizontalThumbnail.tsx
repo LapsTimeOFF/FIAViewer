@@ -8,19 +8,13 @@ import {
 } from "@mui/material";
 
 const HorizontalThumbnail = ({ data, page }: { data: any; page: string }) => {
-  // console.log(data.metadata.longDescription, data.metadata.title, data.metadata.emfAttributes?.Meeting_Country_Name)
-
-  const playAction = /^\/detail\/(\d+)\/(.+)$/gm.test(data.actions[0].href);
+  // console.log(data.metadata.longDescription, data.metadata.title, data.metadata.emfAttributes?.Meeting_Country_Name
 
   return (
     <Grid item>
       <Card sx={{ width: 345, minHeight: 100 }} elevation={1}>
         <CardActionArea onClick={() => {
-          if(playAction === false) {
             location.hash = data.actions[0].href
-          } else {
-            window.fiaviewer.f1tv.player.open(`/player/${data.actions[0].href.split('/').slice(1)[1]}/null`)
-          }
         }}>
           <CardMedia
             sx={{ height: 140 }}
