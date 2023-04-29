@@ -22,6 +22,9 @@ import { handleDeleteKey, handleGetKey, handleSetKey } from "./config";
 import { handleCheckForUpdate } from "./update";
 import { requestPlaybackPath } from "./f1tv/player";
 import { userAgent } from "./utils";
+import handler from 'serve-handler';
+import http from 'http';
+import detect from 'detect-port';
 
 // The built directory structure
 //
@@ -102,7 +105,18 @@ async function createWindow() {
     // Open devTool if the app is not packaged
     win.webContents.openDevTools();
   } else {
-    win.loadFile(indexHtml);
+    const server = http.createServer((request, response) => {
+      // You pass two more arguments for config and middleware
+      // More details here: https://github.com/vercel/serve-handler#options
+      return handler(request, response);
+    });
+
+    const port = await detect(3000);
+
+    server.listen(port, () => {
+      console.log(`Running at http://localhost:${port}`);
+      win.loadURL(`http://localhost:${port}`);
+    });
   }
 
   // Test actively push message to the Electron-Renderer
@@ -197,6 +211,7 @@ app.whenReady().then(async () => {
         // Open devTool if the app is not packaged
         player.webContents.openDevTools();
       } else {
+        console.log(indexHtml + `#${urlPlayer}`)
         player.loadFile(indexHtml + `#${urlPlayer}`);
       }
     }

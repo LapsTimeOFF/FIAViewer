@@ -50,6 +50,7 @@
     "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.8",
+    "detect-port": "^1.5.1",
     "electron-devtools-installer": "^3.2.0",
     "electron-store": "^8.1.0",
     "https-proxy-agent": "^5.0.1",
@@ -57,6 +58,7 @@
     "mux.js": "^6.2.0",
     "react-json-tree": "^0.18.0",
     "react-router-dom": "^6.8.1",
+    "serve-handler": "^6.1.5",
     "shaka-player": "^4.3.4",
     "swr": "^2.1.4"
   },

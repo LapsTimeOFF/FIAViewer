@@ -122,9 +122,9 @@ const Details = () => {
               <Chip
                 sx={{ opacity: 0.8, mt: 1, mx: 0.3 }}
                 color={
-                  data.resultObj.containers[0].metadata.entitlement === "access"
-                    ? "error"
-                    : "info"
+                  data.resultObj.containers[0].metadata.entitlement === "Access"
+                  ? "info"
+                  : "error"
                 }
                 label={data.resultObj.containers[0].metadata.entitlement}
               />

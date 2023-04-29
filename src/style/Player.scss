@@ -14,5 +14,15 @@
 
 body {
   margin: 0;
-  // -webkit-app-region: drag;
+}
+
+.draggable {
+  -webkit-app-region: drag;
+  position: fixed;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
 }
